@@ -15,6 +15,7 @@ let b = foo "one";;
 
 print_string "b is ";;
 print_int b;;
+print_newline();;
 
 let add arg1 arg2 = arg1 + arg2;;
 
@@ -35,4 +36,4 @@ print_int five_b;;
 print_string "a_b is ";;
 print_int a_b;;
 
-print_newline;;
+let() = print_newline();;
