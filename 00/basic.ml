@@ -22,3 +22,12 @@ let str = "hello";;
 
 let () = print_string ("the value of str is "^str);;
 
+(*equality and inequality*)
+
+let x = 9 and y = 9;;
+
+x = y;;
+x <> y;;
+x == y;;
+x != y;;
+
