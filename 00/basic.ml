@@ -1,7 +1,19 @@
+(*expression of types*)
+
+let i = 10;;
+
+let x = 13.2;;
+
+let s = "string test";;
+
+let c = 'g';;
+
+let d = 22 and h = 3.4 and g = 'a' and e = "strstr";;
+
 (*test: local definition*)
 let x =
-	let y = 2 in
-		y * y;;
+  let y = 2 in
+  y * y;;
 
 (*let () = print_int y;;*)
 
@@ -9,3 +21,4 @@ let x =
 let str = "hello";;
 
 let () = print_string ("the value of str is "^str);;
+
