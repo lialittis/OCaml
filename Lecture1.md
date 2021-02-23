@@ -1,5 +1,3 @@
-
-
 # OCaml
 
 ## Main features
