@@ -124,6 +124,60 @@ Mutually recursive functions must be defined simultaneously.
 There is one example in the recursive.ml file.
 
 
+## Tracing Functions
+
+We use hash trace and give the function name and then the function will be traced. It helps us to trace the parameters and the computations or the results of a functions.
+
+### how to use
+
+ # trace <function>
+
+ # untrace <function>
+
+
+### Example
+
+`
+ # let rec fact n =
+   if n = 1 then n else fact(n-1)*n
+ ;;
+
+ fact 5;;
+
+ #trace fact;;
+
+ fact 5;;
+     val fact : int -> int = <fun>
+ #   - : int = 120
+ #   fact is now traced.
+ #   fact <-- 5
+ fact <-- 4
+ fact <-- 3
+ fact <-- 2
+ fact <-- 1
+ fact --> 1
+ fact --> 2
+ fact --> 6
+ fact --> 24
+ fact --> 120
+ - : int = 120
+`
+
+## Memoization
+
+Build a hash table:
+
+`
+ # let memo = Hashtbl.create 1;;
+ val memo : ('_a, '_b) Hashtbl.t = <abstr>
+`
+`
+ # Hashtbl.clear memo;;
+`
+
+Watch the example in the trace\_memoization.ml.
+
+
 
 
 
