@@ -16,6 +16,8 @@ Notice that: here is that we didn't actually specify the types of the input vari
 
 This is another nice way to declare anonymous function by using function expressions. 
 
+* Note that: the name of function should named by minuscule letters.
+
 ## Go deeper
 
 If we go down to the very bottom of how functions work in ocaml, we can find out that actually every function receives only one variable and returns one variable. 
@@ -76,5 +78,52 @@ multiply 2 6;;
 (*using currying*)
 let multiply2 = multiply 2;;
 multiply2 6;;
+
+## Recursive Functions
+
+An example of Factorial: 
+
+1. Iterative implementation
+
+int Factorial(int n)
+{
+	int fact = 1;
+	for(int count = 2; count < n; count ++)
+		fact = fact * count;
+	return fact;
+}
+
+2. Recursive implementation
+
+int Factorial(int n)
+{
+	if (n==0) // base case
+		return 1;
+	else
+		return n*Factorial(n-1);
+}
+
+Another example: Fibonacci
+
+Watch the recursive.ml file, there are several different ways to build a rec function, with or without key word `function`.
+
+
+
+### Definition
+
+* Recursive functions must include the keyword `rec`
+* (* of factorial function*)
+	let rec fact n = 
+		if n == 1 then 1 else n * fact(n-1);;
+
+
+### Addition
+
+Mutually recursive functions must be defined simultaneously.
+
+There is one example in the recursive.ml file.
+
+
+
 
 
