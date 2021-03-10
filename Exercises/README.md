@@ -1,4 +1,4 @@
-# Exercises
+# Exercises - BASIC PART
 
 
 ## Tetragon
@@ -59,6 +59,27 @@ If you multiply my grand-son age by four, you know how old I am. Now, if you exc
 2. Define is_valid_answer of type int * int -> bool such that is_valid_answer (grand_father_age, grand_son_age) returns true if and only if grand_father_age and grand_son_age verify the constraints of the puzzle.
 3. Write a function find : (int * int) -> (int * int) that takes a pair (max_grand_father_age, min_grand_son_age) and returns a solution (grand_father_age, grand_son_age) to the problem, where min_grand_son_age <= grand_son_age < grand_father_age <= max_grand_father_age or (-1, -1) if there was no valid answer in the given range.
 `
+
+## Points and vectors
+
+The given prelude defines three types, one for three dimensional points, another for velocity vectors in three dimensions, and another one representing moving objects in space.
+
+1. Write a function move : point -> dpoint -> point such that move p dp is the point p whose coordinates have been updated according to dp.
+(x is now x +. dx, y is now y +. dy, z is now z +. dz.
+2. Write a function next : physical_object -> physical_object such that next o is the physical object o at time t + dt.
+The position of next o is the position of o moved according to its velocity vector.
+3. Suppose that these objects are spheres whose radius is 1.0. Write a function will_collide_soon : physical_object -> physical_object -> bool that tells if at the next instant, the two spheres will intersect.
+
+
+## Searching for Strings in Arrays
+
+1. Write a function is_sorted : string array -> bool which checks if the values of the input array are sorted in strictly increasing order, implying that its elements are unique (use String.compare).
+2. Using the binary search algorithm, an element can be found very quickly in a sorted array. Write a function find : string array -> string -> int such that find arr word is the index of the word in the sorted array arr if it occurs in arr or -1 if word does not occur in arr. The number or array accesses will be counted, to check that you obtain the expected algorithmic complexity. Beware that you really perform the minimal number of accesses. For instance, if your function has to test the contents of a cell twice, be sure to put the result of the access in a variable, and then perform the tests on that variable.
+
+
+
+
+
 
 
 
