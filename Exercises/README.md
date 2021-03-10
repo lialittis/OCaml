@@ -82,4 +82,3 @@ The position of next o is the position of o moved according to its velocity vect
 
 
 
-
