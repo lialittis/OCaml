@@ -1,7 +1,7 @@
 (*open a module*)
 
 (*example*)
-List.hd [1;2;3;4];; 
+List.hd [1;2;3;4];;
 
 List.tl [1;2;3;4];;
 
@@ -19,4 +19,3 @@ S.sub "this is a test" 2 6;;
 open String;;
 
 get "Test" 3;;
-
