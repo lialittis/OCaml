@@ -17,6 +17,3 @@ S.sub "this is a test" 2 6;;
 
 (*open a module, then we don't need to write String dot*)
 open String;;
-
-get "Test" 3;;
-
