@@ -73,8 +73,12 @@ Lwt will raise `Invalid_argument` if you try to do so.
 
 ## The most important operation : bind
 
+```ocaml
+val bind : 'a Lwt.t -> ('a -> 'b Lwt.t) -> 'b Lwt.t
+```
 
-
+bind p f creates a promise which waits for p to become become fulfilled, 
+then passes the resulting value to f.
 
 
 
