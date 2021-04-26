@@ -99,12 +99,88 @@ or, according to the remaining room on the line:
 and outputs a single space or break the line
 
 
+## How to use
+
+This pretty-printing facility is implemented as an overlay on tope of abstract
+*formaters* which provide basic output functions. Some formatters qre predefined,
+notably:
+- Format.std_formater outputs to stdout
+- Format.err_formatter outputs to stderr
+
+Most functions in the Format module come in two variants: a short version that 
+operates on Format.std_formatter and the generic version prefixed by *pp_* that 
+takes a formatter as its first argument.
+
+More formatters can be created with Format.formatter_of_out_channel, 
+Format.formatter_of_buffer, Format.formatter_of_symbolic_output_buffer or using 
+custom formatters.
+
+**You may consider this module as providing an extension to the printf facility 
+to provide automatic line splitting.**
+
+### Printing to stdout: using printf
+
+The format module provides a general printing facility “à la” printf. In addition 
+to the usual conversion facility provided by printf, you can write pretty-printing 
+indications directly inside the format string (opening and closing boxes, indicating 
+breaking hints, etc).
+
+Pretty-printing annotations are introduced by the @ symbol, directly into the string 
+format. Almost any function of the format module can be called from within a printf 
+format string. For instance
+
+- “@[” open a box (open_box 0). You may precise the type as an extra argument. 
+For instance @[<hov n> is equivalent to open_hovbox n.
+- “@]” close a box (close_box ()).
+- “@ ” output a breakable space (print_space ()).
+- “@,” output a break hint (print_cut ()).
+- “@;<n m>” emit a “full” break hint (print_break n m).
+- “@.” end the pretty-printing, closing all the boxes still opened (print_newline ()).
+
+For instance
+```
+printf "@[<1>%s@ =@ %d@ %s@]@." "Prix TTC" 100 "Euros";;
+Prix TTC = 100 Euros
+- : unit = ()
+```
+
+### important functions
+
+#### fprintf
+
+val fprintf : formatter -> ('a, formatter, unit) format -> 'a
+
+fprintf ff fmt arg1 ... argN formats the arguments arg1 to argN according to the 
+format string fmt, and outputs the resulting string on the formatter ff.
+
+The format string fmt is a character string which contains three types of objects: 
+plain characters and conversion specifications as specified in the Printf module, 
+and pretty-printing indications specific to the Format module.
+
+An complete pretty-printing indications sees in file *pp_indications.md*
+
+#### printf
+
+val printf : ('a, formatter, unit) format -> 'a
+
+Same as fprintf above, but output on std_formatter.
+
+
+
+## Conclusion of Printing
+
+OCaml has four public modules involving reading and printing: Scanf, Printf, Format and 
+Stdlib. Scanf and Printf are flipped in the perspective of reading and writing, while 
+Format can be viewed as an enhanced Printf with prettyprint. Scanf has several *scanf 
+functions. Printf has *printf functions. Format has *printf and pp_* functions.
+
+
 
 ## Ref
 
-https://ocaml.org/learn/tutorials/format.html
-
-
+1. https://ocaml.org/learn/tutorials/format.html
+2. https://ocaml.org/api/Format.html
+3. http://caml.inria.fr/resources/doc/guides/format.en.html
 
 
 
