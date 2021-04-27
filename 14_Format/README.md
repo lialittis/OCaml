@@ -150,7 +150,7 @@ Prix TTC = 100 Euros
 
 val fprintf : formatter -> ('a, formatter, unit) format -> 'a
 
-fprintf ff fmt arg1 ... argN formats the arguments arg1 to argN according to the 
+`fprintf ff fmt arg1 ... argN` formats the arguments arg1 to argN according to the 
 format string fmt, and outputs the resulting string on the formatter ff.
 
 The format string fmt is a character string which contains three types of objects: 
@@ -164,6 +164,26 @@ An complete pretty-printing indications sees in file *pp_indications.md*
 val printf : ('a, formatter, unit) format -> 'a
 
 Same as fprintf above, but output on std_formatter.
+
+
+#### pp_print_list
+`
+val pp_print_list : ?pp_sep:(formatter -> unit -> unit) ->
+       (formatter -> 'a -> unit) -> formatter -> 'a list -> unit
+`
+
+*pp_print_list ?pp_sep pp_v ppf l* prints items of list l, using pp_v to print 
+each item, and calling pp_sep between items (pp_sep defaults to Format.pp_print_cut. 
+Does nothing on empty lists.
+
+
+#### asprintf
+
+val asprintf : ('a, formatter, unit, string) format4 -> 'a
+
+Same as printf above, but instead of printing on a formatter, returns a string 
+containing the result of formatting the arguments. The type of asprintf is general 
+enough to interact nicely with %a conversions.
 
 
 
