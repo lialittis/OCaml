@@ -9,6 +9,8 @@ type contact = {
   phone_number : phone_number
 };;
 
+List.
+
 (* Here is a dumb contact. *)
 let nobody = { name = ""; phone_number = (0, 0, 0, 0) };;
 
@@ -88,7 +90,8 @@ let engine db { code ; contact } =
 
 (*TODO*)
 
-let proof_of_bug = 
+let proof_of_bug = 1
+;;
 
 
 

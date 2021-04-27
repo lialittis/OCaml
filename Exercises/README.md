@@ -1,3 +1,6 @@
+Note that, all these exercises come from https://ocaml-sf.org/learn-ocaml-public/exercise.html
+You could find the original question there.
+
 # Exercises - BASIC PART
 
 
@@ -7,7 +10,7 @@ In this exercise, we will do some basic two-dimensional geometry.
 
 We represent a point in two dimensions using a pair, as defined by type point2d in the given prelude. The first component is abscissa (x) and the second component is the ordinate (y). Abscissas grow from left to right and ordinates grow from bottom to top as illustrated by the following schema:
 
-`
+```
                           ^ (y)
                           |
                           |
@@ -18,7 +21,7 @@ We represent a point in two dimensions using a pair, as defined by type point2d 
                           |
                           |
                           |
-`
+```
 A tetragon is a polygon with four sides. We represent such an object using a 4-uple of points, as defined by type tetragon in the given prelude. that appear in the following order: the left upper point (lup), the right upper point (rup), the left lower point (llp) and the right lower point (rlp).
 
 1. Write a function pairwise_distinct of type tetragon -> bool that checks that the points of an input tetragon are pairwise distinct. In the sequel, we assume that all the points are pairwise distinct.
