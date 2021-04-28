@@ -7,6 +7,8 @@
 
 ### Base
 
+C-s : Incremental search forward(isearch-forward)
+C-r : Incremental search backword(isearch-backward)
 
 
 ### Sup
