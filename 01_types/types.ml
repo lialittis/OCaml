@@ -34,3 +34,16 @@ print_string second
 
 (*do_list_combine*)
 
+(*-----------Advanced Part--------------*)
+
+module Type =
+struct
+  type record_type = {
+  name : string;
+  value : int;
+}
+end
+
+open Type
+
+let Type.record_type = "test"
