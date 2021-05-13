@@ -5,6 +5,12 @@ to get a fancy display for printing routines.
 This module implements a "pretty-printing engine" that is intended to break lines
 in a nice way.
 
+
+## Introduction
+
+Format has `*printf` and `pp_*` functions.
+
+
 ## Principles
 
 Line breaking is based on three concepts:
