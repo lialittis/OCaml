@@ -147,24 +147,101 @@ let is_before date1 date2 =
 
 let test_is_before = is_before (2021,5,14) (2021,5,15)
 
-let string_of_date =
+let string_of_date date =
+  match check_date date with
+  | true -> begin
+      let (y,m,d) = date in
+      let month_str =
+        match m with
+        | 1 -> "January"
+        | 2 -> "February"
+        | 3 -> "March"
+        | 4 -> "April"
+        | 5 -> "May"
+        | 6 -> "June"
+        | 7 -> "July"
+        | 8 -> "August"
+        | 9 -> "September"
+        | 10 -> "October"
+        | 11 -> "November"
+        | 12 -> "December"
+        | _ -> failwith "impossible!"
+      in
+      month_str ^ " " ^ string_of_int d ^ ", " ^ string_of_int y
+    end
+  | false -> failwith "wrong date type"
 
-let earliest : date list -> date option =
+(* suppose that the input are always in correct type *)
+let rec earliest : date list -> date option = function
+| [] -> None
+| hd::tl -> begin
+    match earliest tl with
+    | None -> Some hd
+    | Some x -> if is_before hd x then Some hd else Some x
+  end
 
-let higher_order_helper = (** for earliest and max_hp*) 
+let test_earliest = earliest [(2001,1,5) ; (2021,1,1) ; (2001,1,1)]
+
+
+(* A GOOD EXAMPLE OF CONSTRUCTION FOR HIGHER ORDER HELPER FUNCTION*)
+let rec higher_order_helper (f:'a -> 'a -> bool) (list:'a list) : 'a option =
+  match list with
+  | [] -> None
+  | hd::tl -> begin
+      match higher_order_helper f tl with
+      | None -> Some hd
+      | Some x -> if f hd x then Some hd else Some x
+    end
+
+(*3. Currying *)
+
 
 (*-----------Advanced Part--------------*)
 
 
-(*
-module Type =
+(*module Type =
 struct
   type record_type = {
   name : string;
   value : int;
 }
+end *)
+
+(* 1. For the dates problem *)
+
+(* It is not possible to say something like :
+ * type date = { year : int | year > 0 } * { month : int | month in [1..12] } * { day : int | day in [1..31] } *)
+
+(* INTRODUCE abstract type *)
+
+module Year : sig
+  type t
+  val make : int -> t
+  exception InvalidYear of int
+end = struct
+  type t = int
+  exception InvalidYear of int
+  let make x = if x < 0 then raise (InvalidYear x) else x
 end
 
-open Type
+(* a general approach*)
+module MakeIntSubset (P: sig val predicate : int -> bool end) : sig
+  type t
+  val make : int -> t
+  exception InvalidInt of int
+end = struct
+  type t = int
+  exception InvalidInt of int
+  let make x = if P.predicate x then raise (InvalidInt x) else x
+end
 
-*)
+module Year = MakeIntSubset (struct let predicate x = x > 0 end)
+
+module Month = MakeIntSubset (struct let predicate x = x >= 1 && x <= 12 end)
+
+module Day = MakeIntSubset (struct let predicate x = x >= 1 && x <= 31 end)
+
+(* For more precise control of Day, we need to create one more module like Day_safe 
+ * with the same approach, we don't have to implement it here *)
+
+
