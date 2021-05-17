@@ -10,7 +10,7 @@ type ilist =
 
 type 'a mylist =
 | []
-| Cons of 'a * 'a  list
+| Cons of 'a * 'a mylist
 
 (*Couples et multiplets*)
 let c = (1, "asd")

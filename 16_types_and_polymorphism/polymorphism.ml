@@ -63,13 +63,11 @@ let is_empty (lst : intlist) : bool =
   | Nil -> true
   | Cons _ -> false
 
-
 (* Returns the sum of the elements in the list *)
 let rec sum (lst : intlist) : int =
   match lst with
   | Nil -> 0
   | Cons (h,t) -> h + sum t
-
 
 (* string representation *)
 let rec to_string (lst : intlist) : string =
@@ -112,8 +110,8 @@ let rec reserve (lst : intlist) : intlist =
 
 (* Here is a way to perform a function to each element
  * of a list. *)
-
 let inc (x : int) : int = x + 1
+
 let square (x : int) : int = x * x
 
 let rec append_to_all (lst:intlist) : intlist =
@@ -138,16 +136,13 @@ let square_all (lst:intlist) : intlist =
   do_function_to_all square lst
 
 (* Even Better : Use anonymous functions *)
-
 let addone_to_all (lst:intlist) : intlist =
   do_function_to_all (fun x -> x + 1) lst
 
 let square_all (lst:intlist) : intlist =
   do_function_to_all (fun x -> x * x) lst
 
-
 (* Say we want to compute the sum and product of integers in a list *)
-
 let rec sum (lst : intlist) : int =
   match lst with
   | Nil -> 0
@@ -160,7 +155,6 @@ let rec product (lst : intlist) : int =
 
 (* Better : a general function collapse that takes an operation and an identity
  * element for that operation *)
-
 let rec collapse (f : int -> int -> int) (b:int) (lst:intlist) : int =
   match lst with
   | Nil -> b
@@ -177,14 +171,11 @@ let product (lst:intlist) : int =
 (* we can also use anonymous function for the above functions*)
 
 
-
-(* Trees of integers*)
-
+(* 2. Trees of integers*)
 type inttree = Empty | Node of node
 and node = { value : int ; left : inttree ; right : inttree }
 
 (* Return true if the tree contains x. *)
-
 let rec search (t: inttree) (x:int) : bool =
   match t with
   | Empty -> false
@@ -197,6 +188,106 @@ let tree1 =
 
 let z = search tree1 3
 
-(* Representing trees with a recursive type *)
+(* 3. Representing trees with a recursive type *)
+type nat = Zero | Next of nat
 
-(* To be continuing *)
+let zero = Zero
+let one = Next Zero
+let two = Next (Next Zero)
+let three = Next (Next (Next Zero))
+let four = Next (Next (Next (Next Zero)))
+
+(* functions *)
+let isZero (n:nat) =
+  match n with
+  | Zero -> true
+  | Next m -> false
+
+let pred (n:nat) =
+  match n with
+  | Zero -> failwith "Zero has no predecessor"
+  | Next m -> m
+
+let rec add (n1:nat) (n2:nat) =
+  match n2 with
+  | Zero -> n1
+  | Next m -> add (Next n1) m
+
+;;
+add four four
+
+let rec toInt (n:nat) =
+  match n with
+  | Zero -> 0
+  | Next m -> (toInt m ) + 1
+
+;;
+toInt (add four four)
+
+let rec toNat (i:int) =
+  if i<0 then failwith "toNat on Negative Number" else
+  match i with
+  | 0 -> Zero
+  | _ -> Next (toNat (i-1))
+
+(* A very simple but interesting recusive function to realize mul *)
+let rec mul (n1:nat) (n2:nat) =
+  match n1 with
+  | Zero -> Zero
+  | Next m -> add n2 (mul m n2)
+
+
+(* 4. pattern matching *)
+
+(* Example on records *)
+type sign = Pos | Neg
+
+type integer = {sign:sign; mag:nat}
+
+let zero = {sign = Pos; mag = Zero}
+
+let zero' = {sign = Neg; mag = Zero}
+
+let one = {sign=Pos; mag = Next Zero}
+
+let negOne = {sign=Neg; mag = Next Zero}
+
+let inc (i:integer) =
+  match i with
+  | {sign= _; mag = Zero} -> {sign = Pos; mag = Next Zero}
+  | {sign=Neg; mag = Next m} -> {sign = Neg; mag = m}
+  | {sign=Pos; mag = m} -> {sign = Pos; mag = Next m}
+
+(* 5. Polymorphism *)
+
+let swapInt ((x:int),(y:int)) : int * int = (y,x)
+and swapReal ((x:float), (y:float)) : float * float = (y,x)
+and swapString ((x:string),(y:string)) : string * string = (y,x)
+
+(* so, a better way *)
+let swap ((x:'a),(y:'a)) : 'a * 'a = (y,x)
+
+(* another example *)
+
+let appendToString ((x : 'a), (s : string) , (convert: 'a -> string)) : string =
+  (convert x) ^ " " ^ s
+
+appendToString ("ten","twelve",fun (s:string) -> s ^ " past")
+
+(* Parameterized Types *)
+type intList = Nil | Cons of (int * intList)
+
+type 'a list_ = Nil | Cons of ('a * 'a list_)
+
+(* there are more supplementations in 01_types *)
+
+
+(* 6. Abstract syntax and variant types *)
+type id = string
+type baseType = Int | Real | String | Bool | Char
+type mlType = Base of baseType | Arrow of mlType * mlType
+            | Product of mlType list | Record of (id * mlType)
+            | DatatypeName of id
+
+
+
