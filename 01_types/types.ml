@@ -195,6 +195,114 @@ let rec higher_order_helper (f:'a -> 'a -> bool) (list:'a list) : 'a option =
 
 (*3. Currying *)
 
+(* curried function : t1 -> t2 -> t3
+ * uncurried function : (t1 * t2) -> t3 *)
+
+let uncurried_list_nth pair =
+  let (t1,t2) = pair in
+  List.nth t1 t2
+
+let uncurried_list_append pair =
+  let (t1,t2) = pair in
+  List.nth t1 t2
+
+let uncurried_char_compare pair =
+  let (t1,t2) = pair in
+  Char.compare t1 t2
+
+open Stdlib
+(*
+let uncurried_pervasives_max pair =
+  let (t1,t2) = pair in
+  Pervasives.max t1 t2
+*)
+
+(* define a uncurry function to uncurry any functions like above *)
+let uncurry curried_f pair =
+  let (t1,t2) = pair in
+  curried_f t1 t2
+
+let curry uncurried_f t1 t2 =
+  let pair = (t1,t2) in
+  uncurried_f pair
+
+(* 4. Roman Numbers *)
+
+type rnumberal = I | V | X | L | C | D | M
+
+type rnumber = rnumberal list
+
+(* conver a single Roman number to an integer *)
+let int_of_rnumberal = function
+| I -> 1
+| V -> 5
+| X -> 10
+| L -> 50
+| C -> 100
+| D -> 500
+| M -> 1000
+
+(* not used acutally *)
+let couplable_rnumberal t1 t2 =
+  match t1 with
+  | I -> begin
+      match t2 with
+      | I | V | X -> true
+      | _ -> false
+    end
+  | V -> begin
+      match t2 with
+      | I -> true
+      | _ -> false
+    end
+  | X -> begin
+      match t2 with
+      | X | L | C -> true
+      | _ -> false
+    end
+  | L -> begin
+      match t2 with
+      | X -> true
+      | _ -> false
+    end
+  | C -> begin
+      match t2 with
+      | C | D | M -> true
+      | _ -> false
+    end
+  | D -> begin
+      match t2 with
+      | C -> true
+      | _ -> false
+    end
+  | M -> begin
+      match t2 with
+      | M -> true
+      | _ -> false
+    end
+
+let rec int_of_rnumber: rnumber -> int = function
+| [] -> 0
+| hd::tl -> begin
+    match tl with
+    | [] -> int_of_rnumberal hd
+    | _ -> begin
+        let inth = int_of_rnumberal hd in
+        let intt = int_of_rnumber tl in
+        let right_order = int_of_rnumberal (List.nth tl 0) in
+        let left_order = inth in
+        if left_order >= right_order then
+          inth + intt
+        else intt - inth
+      end
+  end
+
+let test_ior = int_of_rnumber [M;M;C;M;X;C;I;X]
+
+(* Bug : offer one wrong Roman number, this function cannot recognize it *)
+let test_bug_wrong_rn = int_of_rnumber [M;M;C;M;X;C;X;X;X;I;X]
+
+
 
 (*-----------Advanced Part--------------*)
 
