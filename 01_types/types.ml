@@ -49,9 +49,7 @@ let rec list_max (l: int list) =
   | [] -> failwith "empty"
   | head::tail -> max head (list_max tail)
 
-
 (* options *)
-
 let extract o =
   match o with
   | Some i -> string_of_int i
@@ -78,7 +76,6 @@ let rec (list_max: 'a list -> 'a option) = function
     | None -> Some h
     | Some m -> Some (max h m)
   end
-
 
 (*----------------Practice------------------*)
 

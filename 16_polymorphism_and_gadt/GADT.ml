@@ -170,7 +170,7 @@ let length (type el) (t:el t) =
 module Compare_array_3 :
 sig
   type 'a t = | Array : 'a array -> 'a t
-            | Bytes : bytes -> char t
+              | Bytes : bytes -> char t
   val of_bytes : bytes -> char t
   val of_array : 'a array -> 'a t
   val length : 'a t -> int
@@ -226,3 +226,73 @@ let foo2 (type a) (ty:a ty) =
   | Unit_ty u -> true
 
 
+
+
+
+
+
+
+
+(* Some practices*)
+
+type 'a t = | Array : 'a array -> 'a t
+            | Bytes : bytes -> char t
+
+let x = [|1;2;3|]
+
+let foo (type a) (t:a t) =
+  match t with
+  | Array a -> Array.get a 0
+  | Bytes s -> Bytes.get s 0
+
+let foo2 pair =
+  let (t1,t2)  =pair in
+  t1
+
+let foo = Array x
+
+
+
+
+let f g a = if (g a > a) then a
+
+let f g a = if (g a > a) then a else a
+
+
+
+
+
+type 'a cell = {elt : 'a ; mutable next : 'a cell }
+
+type 'a t = ('a option) ref
+
+let create () =
+  ref None
+
+let pop q =
+  match !q with
+  | None -> invalid_arg "pop"
+  | Some last when last.next == last ->
+      q := None;
+      last.elt
+  | _ -> failwith "message"
+
+let foo () = pop (create ())
+
+type 'a t = 'a list
+(*
+let get a_t =
+  match a_t with
+  | [] -> None
+  | _ -> Some (List.nth a_t 0)
+*)
+
+type 'a t = 'a option
+
+let create () =
+  None
+
+let rec fresh = function
+| None -> None
+| Some a -> Some a
+  
