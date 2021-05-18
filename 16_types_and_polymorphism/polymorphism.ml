@@ -268,11 +268,12 @@ and swapString ((x:string),(y:string)) : string * string = (y,x)
 let swap ((x:'a),(y:'a)) : 'a * 'a = (y,x)
 
 (* another example *)
-
-let appendToString ((x : 'a), (s : string) , (convert: 'a -> string)) : string =
+(*
+let appendToString ((x : 'a), (s : string) , (convert : 'a -> string)) : string =
   (convert x) ^ " " ^ s
 
-appendToString ("ten","twelve",fun (s:string) -> s ^ " past")
+appendToString ("ten","twelve", fun (s:string) -> s ^ " past")
+*)
 
 (* Parameterized Types *)
 type intList = Nil | Cons of (int * intList)
@@ -291,3 +292,21 @@ type mlType = Base of baseType | Arrow of mlType * mlType
 
 
 
+(*-------------------------Advanced Using------------------------------*)
+
+type 'a ty =
+  | Int_ty : int -> int ty
+  | String_ty : string -> string ty
+  | Unit_ty : bool -> bool ty
+
+let t = Int_ty 3
+
+let foo : type a. a ty -> bool = function
+| Int_ty ty -> true
+| String_ty ty -> true
+| Unit_ty ty -> true
+
+
+let x = String_ty "x"
+
+(* To understand more, see GADT.ml*)
