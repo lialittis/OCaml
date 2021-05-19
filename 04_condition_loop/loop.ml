@@ -17,3 +17,9 @@ let i = 4;;
 while i < 5 do
   print_string "test"
 done;;
+
+for i = (print_string "*\n";0) to (print_string ".\n" ; 10) do
+  print_string "value of i is: ";
+  print_int i;
+  print_string "\n";
+done;;
