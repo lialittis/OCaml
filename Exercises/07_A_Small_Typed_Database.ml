@@ -9,7 +9,6 @@ type contact = {
   phone_number : phone_number
 };;
 
-List.
 
 (* Here is a dumb contact. *)
 let nobody = { name = ""; phone_number = (0, 0, 0, 0) };;
@@ -19,6 +18,8 @@ type database = {
   number_of_contacts : int;
   contacts : contact array;
 };;
+
+
 
 (* [make n] is the database with no contact and at most [n] contacts
     stored inside. *)

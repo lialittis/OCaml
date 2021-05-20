@@ -43,6 +43,7 @@
  '(next-error-highlight-no-select t)
  '(next-line-add-newlines nil)
  '(ocamlformat-enable (quote enable))
+ '(package-selected-packages (quote (auto-complete)))
  '(require-final-newline t)
  '(sentence-end-double-space nil)
  '(show-paren-mode t)
@@ -55,7 +56,20 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+
+ ; linum set
+ '(linum ((t (:inherit (shadow default) :foreground "yellow"))))
  )
+
+;; set linum mode
+(global-linum-mode)
+;(defun my-linum-mode ()
+;  (if buffer-file-name
+;      (linum-mode)))
+;(define-globalized-minor-mode my-global-linum-mode linum-mode my-linum-mode)
+;(my-global-linum-mode)
+; distance between number and code
+(setq linum-format "%4d ")
 
 
 ;; ANSI color in compilation buffer
@@ -71,8 +85,8 @@
 (global-set-key [f3] 'next-match)
 (defun prev-match () (interactive nil) (next-match -1))
 (global-set-key [(shift f3)] 'prev-match)
-(global-set-key [backtab] 'auto-complete)
-
+;(global-set-key [backtab] 'auto-complete)
+;(global-set-key [()] 'completion-at-point)
 
 ;; ## added by OPAM user-setup for emacs / base ## 56ab50dc8996d2bb95e7856a6eddb17b ## you can edit, but keep this line
 (require 'opam-user-setup "~/.emacs.d/opam-user-setup.el")
@@ -92,7 +106,29 @@
 (add-hook 'caml-mode-hook 'merlin-mode t)
 
 ;; activer auto-complete
-(setq merlin-use-auto-complete-mode 'easy)
+;(setq merlin-use-auto-complete-mode 'easy)
+(ac-config-default)
+(setq merlin-ac-setup 'easy)
+
+;(define-key ac-mode-map (kbd [backtab]) 'auto-complete)
+
+(ac-set-trigger-key "TAB")
+; auto start
+(setq ac-auto-start t)
+
+; finish completion by TAB
+(define-key ac-completing-map "\t" 'ac-complete)
+(define-key ac-completing-map "\r" nil)
+
+; config auto-complete
+(setq ac-use-menu-map t)
+;; Default settings
+(define-key ac-menu-map "\C-n" 'ac-next)
+(define-key ac-menu-map "\C-p" 'ac-previous)
+(setq ac-use-quick-help t)
+;; 20 lines
+(setq ac-menu-height 20)
+
 
 ;; utiliser opam avec merlin
 (setq merlin-command 'opam)
@@ -102,7 +138,9 @@
 (global-set-key [f6] 'recompile)
 (global-set-key [f7] 'next-error)
 
-;; pour avoir des raccourcis C-c C-v C-x pour le copier-coller
+;; pour avoir des raccourcis C-c C-v C-x pour le copier-coller (is already applied at the top)
+;; (custom-set-variables '(cua-mode t nil (cua-base)))
+
 
 
 ; ocp-indent
