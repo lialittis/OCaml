@@ -88,3 +88,45 @@ let pack alist =
       else aux [] ((a :: current) :: acc) t in
   List.rev (aux [] [] alist)
 
+(* 10. Run-length encoding of a list *)
+let encode alist =
+  let rec aux num acc = function
+  | [] -> []
+  | [x] -> (num+1,x)::acc
+  | a :: (b::_ as t) ->
+      if a = b then aux (num+1) acc t
+      else aux 0 ((num+1,a)::acc) t
+  in
+  List.rev (aux 0 [] alist)
+
+(* another approach is using pack function declard above, which requires more memory *)
+
+(* 11. Modified run-length encoding *)
+type 'a rle =
+  | One of 'a
+  | Many of int * 'a
+
+let encode alist =
+  let create_element num elem =
+    if num = 1 then One elem
+    else Many (num,elem)
+  in
+  let rec aux num acc = function
+  | [] -> []
+  | [x] ->(create_element (num+1) x)::acc
+  | a::(b::_ as t ) ->
+      if a = b then aux (num+1) acc t
+      else aux 0 ((create_element (num+1) a)::acc) t
+  in
+  List.rev(aux 0 [] alist)
+
+(*example*)
+;;
+let result = encode ["e";"e";"z";"z";"z";"e";"&";"&"];;
+
+(* 12. Decode a run-length encoded list. *)
+
+
+(*example*)
+;;
+let result = decode [Many (4, "a"); One "b"; Many (2, "c"); Many (2, "a"); One "d"; Many (4, "e")];;
