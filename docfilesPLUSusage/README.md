@@ -33,6 +33,8 @@ shift-f3 : prev-match
 f5 : compile
 f6 : recompile
 f7 : next error
+
+C-n C-a : create .mli file based on the current .ml file
 ++++++
 
 * Screen Separation
@@ -46,6 +48,9 @@ C-x 0 : shut down current window
 C-c <- ： reset/back to the last setting
 C-c -> ： go forward to the next setting
 ++++++
+
+
+
 
 * shell
 
