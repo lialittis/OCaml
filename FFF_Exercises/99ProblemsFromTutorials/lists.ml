@@ -235,3 +235,100 @@ let split alist num =
 let result = split ["a"; "b"; "c"; "d"; "e"; "f"; "g"; "h"; "i"; "j"] 3
 
 let result = split ["a"; "b"; "c"; "d"] 5
+
+(* 19. Rotate a list N places to the left *) (*medium*)
+let rec rotate alist num =
+  if num > 0 then
+    match alist with
+    | [] -> []
+    | h::t -> rotate (t@[h]) (num-1)
+  else if num < 0 then
+    match alist with
+    | [] -> []
+    | l ->
+        match (List.rev l) with
+        | h::t -> rotate (List.rev (t@[h])) (num+1)
+        | [] -> []
+  else alist
+
+
+(* example *)
+let result = rotate ["a"; "b"; "c"; "d"; "e"; "f"; "g"] 3
+
+let result = rotate ["a"; "b"; "c"; "d"; "e"; "f"; "g"] (-2)
+
+(* standard solution *)
+let split list n =
+  let rec aux i acc = function
+  | [] -> List.rev acc, []
+  | h :: t as l -> if i = 0 then List.rev acc, l
+      else aux (i - 1) (h :: acc) t  in
+  aux n [] list
+
+let rotate list n =
+  let len = List.length list in
+    (* Compute a rotation value between 0 and len - 1 *)
+  let n = if len = 0 then 0 else (n mod len + len) mod len in (* a good example of mod *)
+  if n = 0 then list
+  else let a, b = split list n in b @ a
+
+(* 20. Remove the K'th element from a list *)
+let remove_at num alist =
+  let rec aux i = function
+  | [] -> []
+  | h::t -> if i = num then t else h::(aux (i+1) t)
+  in
+  aux 0 alist
+
+(* example *)
+let result = remove_at 1 ["a";"b";"c";"d"]
+
+(* 21. Insert an element at a given position into a list *) (*easy*)
+let insert_at el index alist =
+  let rec aux i = function
+  | [] -> [el] (* need to add the element *)
+  | h::t -> if i = index then el::h::t else h::(aux (i+1) t)
+  in
+  aux 0 alist
+
+(* example *)
+let result = insert_at "alfa" 1 ["a";"b";"c";"d"]
+
+let result = insert_at "alfa" 3 ["a"; "b"; "c"; "d"]
+
+let result = insert_at "alfa" 4 ["a"; "b"; "c"; "d"]
+
+(* 22. Create a list containing all integers within a given range *)
+let range e1 e2 =
+  let rec aux acc start =
+    if start < e2 then aux (start::acc) (start+1)
+    else if start > e2 then aux (start::acc) (start-1)
+    else start::acc
+  in
+  List.rev (aux [] e1)
+
+(* example *)
+let result = range 4 9
+
+let result = range 9 4
+
+(* 23. Extract a given number of randomly selected elements from a list *)(*medium*)
+(* The selected items shall be returned in a list. We use the Random module but do not initialize it with Random.self_init for reproducibility. *)
+let rand_select alist num =
+  let rec extract acc n = function
+  | [] -> raise Not_found
+  | h::t -> if n = 0 then (h,acc @ t) else extract (h::acc) (n-1) t
+  in
+  let extract_rand list len =
+    extract [] (Random.int len) list
+  in
+  let rec aux n acc list len =
+    if n = 0 then acc else
+    let picked,rest = extract_rand list len in
+    aux (n-1) (picked::acc) rest (len-1)
+  in
+  let len = List.length alist in
+  aux (min num len) [] alist len
+
+(* example *)
+let result = rand_select ["a";"b";"c";"d";"e";"f";"g";"h"] 3
