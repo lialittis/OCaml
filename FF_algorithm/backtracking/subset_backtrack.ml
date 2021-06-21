@@ -65,11 +65,11 @@ let partition (list: int list) : int list list =
 let subsets list =
   let len = List.length list in
   let rec backtrack res tem ori start len_subset =
-    if len_subset == 0 then
+    if len_subset = 0 then
       tem::res
     else begin
       let rec loop res tem ori start =
-        if start == len then
+        if start = len then
           res
         else begin
           let res =
@@ -91,6 +91,13 @@ let subsets list =
     )
   in
   loop_back [] [] list 0 0
+
+(* analysis:  don't use == to compare integers but =, the usage of List.nth 
+ * is a code smell from an algorithmic point of view, the code is probably too
+ * complicated, etc.
+ * With the list monad, this problem can be solved in an elegant and concise way.
+ *)
+
 
 
 (* example *)
