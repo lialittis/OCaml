@@ -22,3 +22,4 @@ let random_terminal ():t =
   else random_select (Array.map of_float [|1.;2.;3.|])
 
 (* note that, you shoule keep it well-typed *)
+
