@@ -12,3 +12,7 @@ let l = 1::[2]
 (* replicate list *)
 let rec helper acc n l =
   if n = 0 then acc else helper (l @ acc) (n-1) l
+
+
+(* replace a element in a list : using mapi*)
+let replace l pos a  = List.mapi (fun i x -> if i = pos then a else x) l
